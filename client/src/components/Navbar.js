@@ -18,9 +18,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          <span className="logo-bracket">{'>'}</span>
-          <span className="logo-text">GRANT_JONES</span>
-          <span className="logo-cursor">_</span>
+          Grant Jones
         </Link>
 
         <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
@@ -29,28 +27,28 @@ const Navbar = () => {
             className={`navbar-link ${isActive('/') ? 'active' : ''}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            <span className="link-prefix">~/</span>home
+            Home
           </Link>
           <Link
             to="/projects"
             className={`navbar-link ${isActive('/projects') ? 'active' : ''}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            <span className="link-prefix">~/</span>projects
+            Projects
           </Link>
           <Link
             to="/about"
             className={`navbar-link ${isActive('/about') ? 'active' : ''}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            <span className="link-prefix">~/</span>about
+            About
           </Link>
           <Link
             to="/contact"
             className={`navbar-link ${isActive('/contact') ? 'active' : ''}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            <span className="link-prefix">~/</span>contact
+            Contact
           </Link>
         </div>
 

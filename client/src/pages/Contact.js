@@ -65,7 +65,7 @@ const Contact = () => {
             </h3>
             <div className="social-list">
               <a
-                href="https://github.com/gdjones-526"
+                href="https://github.com/grantjones-526"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"

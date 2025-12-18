@@ -1,4 +1,4 @@
-/* Global Styles - Sci-Fi Terminal Theme */
+/* Global Styles - Dark Professional Theme */
 
 * {
   margin: 0;
@@ -7,26 +7,27 @@
 }
 
 :root {
-  /* Color Palette */
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #121212;
-  --bg-tertiary: #1a1a1a;
-  --bg-hover: #2a2a2a;
+  /* Color Palette - Dark Professional */
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --bg-hover: #30363d;
+  --bg-card: #161b22;
 
-  --text-primary: #e0e0e0;
-  --text-secondary: #b0b0b0;
-  --text-muted: #808080;
+  --text-primary: #c9d1d9;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
 
-  --accent-green: #00ff41;
-  --accent-green-dark: #00d936;
-  --accent-purple: #b388ff;
-  --accent-purple-dark: #9c27b0;
-  --accent-orange: #d4a574;
-  --accent-orange-bright: #ff9800;
+  --accent-primary: #58a6ff;
+  --accent-green: #3fb950;
+  --accent-green-hover: #2ea043;
 
-  --border-color: #00ff41;
-  --error-color: #ff4444;
-  --success-color: #00ff41;
+  --border-default: #30363d;
+  --border-muted: #21262d;
+
+  --error-color: #f85149;
+  --success-color: #3fb950;
+  --warning-color: #d29922;
 
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -35,10 +36,16 @@
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --spacing-xxl: 3rem;
+  --spacing-xxxl: 4rem;
 
   /* Typography */
-  --font-mono: 'Courier New', 'Fira Code', monospace;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Consolas', monospace;
+
+  /* Transitions */
+  --transition-fast: 0.1s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
 
 body {
@@ -64,29 +71,7 @@ body {
   margin: 0 auto;
 }
 
-/* Terminal Elements */
-.terminal-line {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-}
-
-.terminal-prompt {
-  color: var(--accent-green);
-  font-weight: bold;
-  text-shadow: 0 0 5px var(--accent-green);
-}
-
-.terminal-command {
-  color: var(--accent-purple);
-}
-
-.terminal-text {
-  color: var(--text-secondary);
-}
+/* Remove terminal elements - too gimmicky */
 
 /* Home Page Styles */
 .home-container {

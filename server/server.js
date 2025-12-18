@@ -52,7 +52,7 @@ app.get('/api/projects', (req, res) => {
       title: 'Portfolio Website',
       description: 'Interactive portfolio showcasing CS projects with sci-fi terminal aesthetic. Built with React frontend and Node.js backend, featuring project showcase, GitHub integration, and contact form.',
       techStack: ['React', 'Node.js', 'Express', 'CSS'],
-      githubUrl: 'https://github.com/gdjones-526/grantjones-526.github.io',
+      githubUrl: 'https://github.com/grantjones-526/grantjones-526.github.io',
       liveUrl: 'https://grantjones-526.github.io',
       image: ''
     }

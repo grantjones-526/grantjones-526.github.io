@@ -1,49 +1,39 @@
-/* Navbar Styles */
+/* Navbar Styles - Professional */
 .navbar {
   background-color: var(--bg-secondary);
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 1px solid var(--border-default);
   padding: var(--spacing-md) 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 20px rgba(0, 255, 65, 0.1);
+  backdrop-filter: blur(8px);
 }
 
 .navbar-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  padding: 0 var(--spacing-lg);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .navbar-logo {
-  font-family: var(--font-mono);
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--accent-green);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  text-shadow: 0 0 10px var(--accent-green);
-  transition: all 0.3s ease;
+  transition: color var(--transition-base);
 }
 
 .navbar-logo:hover {
-  text-shadow: 0 0 20px var(--accent-green);
-  transform: scale(1.05);
-}
-
-.logo-bracket {
-  color: var(--accent-purple);
-  font-size: 1.8rem;
-}
-
-.logo-cursor {
-  animation: blink 1s infinite;
   color: var(--accent-green);
+}
+
+/* Remove gimmicky elements */
+.logo-bracket,
+.logo-cursor {
+  display: none;
 }
 
 .navbar-menu {
@@ -53,36 +43,36 @@
 }
 
 .navbar-link {
-  font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   text-decoration: none;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) 0;
+  transition: color var(--transition-base);
+  position: relative;
+  font-weight: 500;
 }
 
 .navbar-link:hover {
-  color: var(--accent-green);
-  border-color: var(--accent-green);
-  background-color: rgba(0, 255, 65, 0.05);
-  text-shadow: 0 0 5px var(--accent-green);
+  color: var(--text-primary);
 }
 
 .navbar-link.active {
   color: var(--accent-green);
-  border-color: var(--accent-green);
-  background-color: rgba(0, 255, 65, 0.1);
-  text-shadow: 0 0 10px var(--accent-green);
 }
 
+.navbar-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-green);
+}
+
+/* Remove gimmicky prefix */
 .link-prefix {
-  color: var(--accent-purple);
-  font-weight: bold;
+  display: none;
 }
 
 /* Mobile Menu Toggle */
@@ -122,19 +112,18 @@
   transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Footer Styles */
+/* Footer Styles - Professional */
 .footer {
   background-color: var(--bg-secondary);
-  border-top: 2px solid var(--border-color);
-  padding: var(--spacing-lg) 0;
+  border-top: 1px solid var(--border-default);
+  padding: var(--spacing-xl) 0;
   margin-top: auto;
-  box-shadow: 0 -4px 20px rgba(0, 255, 65, 0.1);
 }
 
 .footer-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  padding: 0 var(--spacing-lg);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -151,29 +140,26 @@
 }
 
 .footer-text {
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+  font-size: 0.875rem;
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
 }
 
 .footer-link {
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--text-secondary);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: color var(--transition-base);
 }
 
 .footer-link:hover {
   color: var(--accent-green);
-  text-shadow: 0 0 5px var(--accent-green);
 }
 
 .footer-separator {
-  color: var(--accent-purple);
+  color: var(--border-default);
   margin: 0 var(--spacing-xs);
 }
 

@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-left">
           <span className="footer-text">
-            <span className="terminal-prompt">$</span> Built with React & Node.js
+            Built with React & Node.js
           </span>
         </div>
         <div className="footer-center">
@@ -19,7 +19,7 @@ const Footer = () => {
         </div>
         <div className="footer-right">
           <a
-            href="https://github.com/gdjones-526"
+            href="https://github.com/grantjones-526"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-link"

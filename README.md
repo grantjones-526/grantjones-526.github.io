@@ -70,7 +70,7 @@ grantjones-526.github.io/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/gdjones-526/grantjones-526.github.io.git
+   git clone https://github.com/grantjones-526/grantjones-526.github.io.git
    cd grantjones-526.github.io
    ```
 
@@ -91,7 +91,7 @@ grantjones-526.github.io/
    Create a `.env` file in the `server` directory:
    ```
    PORT=5000
-   GITHUB_USERNAME=gdjones-526
+   GITHUB_USERNAME=grantjones-526
    ```
 
 ### Running the Application
@@ -194,7 +194,7 @@ This project is open source and available under the MIT License.
 Grant Jones
 - Email: grantjones526@outlook.com
 - LinkedIn: [linkedin.com/in/grant-jones-cs](https://linkedin.com/in/grant-jones-cs)
-- GitHub: [github.com/gdjones-526](https://github.com/gdjones-526)
+- GitHub: [github.com/grantjones-526](https://github.com/grantjones-526)
 
 ---
 
