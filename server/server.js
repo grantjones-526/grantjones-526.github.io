@@ -17,16 +17,43 @@ app.get('/api', (req, res) => {
   res.json({ message: 'Portfolio API is running' });
 });
 
-// Get projects (for now, returns static data)
+// Get projects (featured projects from resume)
 app.get('/api/projects', (req, res) => {
   const projects = [
     {
       id: 1,
-      title: 'Portfolio Website',
-      description: 'Interactive portfolio showcasing my CS projects',
-      techStack: ['React', 'Node.js', 'Express'],
-      githubUrl: 'https://github.com/grantjones-526/grantjones-526.github.io',
+      title: 'AI Model Interface',
+      description: 'Web interface utilizing multiple machine learning algorithms including linear regression, decision trees, bagging, boosting, random forests, support vector machines, and deep neural networks. Users can upload data and evaluate models using metrics such as accuracy, precision, recall, and ROC curves.',
+      techStack: ['Python', 'Django', 'Scikit-Learn', 'Pandas', 'Machine Learning'],
+      githubUrl: '',
       liveUrl: '',
+      image: ''
+    },
+    {
+      id: 2,
+      title: 'Golf Club Recommendation App',
+      description: 'Web application that registers golf shots and recommends clubs based on environmental factors. Implements K-Nearest Neighbor algorithm to accurately predict which club to use based on weighted variables (Distance, Lie, Fade/Draw).',
+      techStack: ['Python', 'Django', 'PostgreSQL', 'Scikit-Learn', 'K-NN'],
+      githubUrl: '',
+      liveUrl: '',
+      image: ''
+    },
+    {
+      id: 3,
+      title: 'LLM Interface',
+      description: 'Custom LLM interface allowing users to upload any file type or website as context. Features custom CSS terminal-style design and detects client-side GPU availability to determine whether to use lighter or more robust models for efficiency.',
+      techStack: ['Python', 'React', 'SQLite', 'Ollama', 'LLM'],
+      githubUrl: '',
+      liveUrl: '',
+      image: ''
+    },
+    {
+      id: 4,
+      title: 'Portfolio Website',
+      description: 'Interactive portfolio showcasing CS projects with sci-fi terminal aesthetic. Built with React frontend and Node.js backend, featuring project showcase, GitHub integration, and contact form.',
+      techStack: ['React', 'Node.js', 'Express', 'CSS'],
+      githubUrl: 'https://github.com/gdjones-526/grantjones-526.github.io',
+      liveUrl: 'https://grantjones-526.github.io',
       image: ''
     }
   ];
