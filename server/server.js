@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
@@ -32,7 +33,7 @@ app.get('/api/projects', (req, res) => {
       title: 'AI Model Interface',
       description: 'Web interface utilizing multiple machine learning algorithms including linear regression, decision trees, bagging, boosting, random forests, support vector machines, and deep neural networks. Users can upload data and evaluate models using metrics such as accuracy, precision, recall, and ROC curves.',
       techStack: ['Python', 'Django', 'Scikit-Learn', 'Pandas', 'Machine Learning'],
-      githubUrl: '',
+      githubUrl: 'https://github.com/grantjones-526/Machine-Learning-Web-Platform',
       liveUrl: '',
       image: ''
     },
@@ -41,21 +42,12 @@ app.get('/api/projects', (req, res) => {
       title: 'Golf Club Recommendation App',
       description: 'Web application that registers golf shots and recommends clubs based on environmental factors. Implements K-Nearest Neighbor algorithm to accurately predict which club to use based on weighted variables (Distance, Lie, Fade/Draw).',
       techStack: ['Python', 'Django', 'PostgreSQL', 'Scikit-Learn', 'K-NN'],
-      githubUrl: '',
+      githubUrl: 'https://github.com/grantjones-526/Ai-Caddy',
       liveUrl: '',
       image: ''
     },
     {
       id: 3,
-      title: 'LLM Interface',
-      description: 'Custom LLM interface allowing users to upload any file type or website as context. Features custom CSS terminal-style design and detects client-side GPU availability to determine whether to use lighter or more robust models for efficiency.',
-      techStack: ['Python', 'React', 'SQLite', 'Ollama', 'LLM'],
-      githubUrl: '',
-      liveUrl: '',
-      image: ''
-    },
-    {
-      id: 4,
       title: 'Portfolio Website',
       description: 'Interactive portfolio showcasing CS projects with sci-fi terminal aesthetic. Built with React frontend and Node.js backend, featuring project showcase, GitHub integration, and contact form.',
       techStack: ['React', 'Node.js', 'Express', 'CSS'],
@@ -96,18 +88,47 @@ app.get('/api/github/repos', async (req, res) => {
   }
 });
 
+// Email transporter for Outlook
+const transporter = nodemailer.createTransport({
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
 // Contact form endpoint
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  // TODO: Implement email sending logic (e.g., using nodemailer)
-  console.log('Contact form submission:', { name, email, message });
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      replyTo: email,
+      subject: `Portfolio Contact: ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      html: `
+        <h3>New Contact Form Submission</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `
+    });
 
-  res.json({ success: true, message: 'Message received! I\'ll get back to you soon.' });
+    console.log('Contact email sent successfully from:', email);
+    res.json({ success: true, message: 'Message sent! I\'ll get back to you soon.' });
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+    res.status(500).json({ error: 'Failed to send message. Please try again later.' });
+  }
 });
 
 app.listen(PORT, () => {
