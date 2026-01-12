@@ -17,10 +17,6 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          Grant Jones
-        </Link>
-
         <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
           <Link
             to="/"

@@ -45,15 +45,6 @@ app.get('/api/projects', (req, res) => {
       githubUrl: 'https://github.com/grantjones-526/Ai-Caddy',
       liveUrl: '',
       image: ''
-    },
-    {
-      id: 3,
-      title: 'Portfolio Website',
-      description: 'Interactive portfolio showcasing CS projects with sci-fi terminal aesthetic. Built with React frontend and Node.js backend, featuring project showcase, GitHub integration, and contact form.',
-      techStack: ['React', 'Node.js', 'Express', 'CSS'],
-      githubUrl: 'https://github.com/grantjones-526/grantjones-526.github.io',
-      liveUrl: 'https://grantjones-526.github.io',
-      image: ''
     }
   ];
   res.json(projects);
@@ -70,16 +61,22 @@ app.get('/api/github/repos', async (req, res) => {
       }
     });
 
-    const repos = response.data.map(repo => ({
-      id: repo.id,
-      name: repo.name,
-      description: repo.description,
-      html_url: repo.html_url,
-      homepage: repo.homepage,
-      language: repo.language,
-      stargazers_count: repo.stargazers_count,
-      updated_at: repo.updated_at
-    }));
+    const excludedRepos = ['grantjones-526.github.io', 'Ai-Caddy', 'Machine-Learning-Web-Platform'];
+    const inProgressRepos = ['GymBros'];
+
+    const repos = response.data
+      .filter(repo => !excludedRepos.includes(repo.name))
+      .map(repo => ({
+        id: repo.id,
+        name: repo.name,
+        description: repo.description,
+        html_url: repo.html_url,
+        homepage: repo.homepage,
+        language: repo.language,
+        stargazers_count: repo.stargazers_count,
+        updated_at: repo.updated_at,
+        status: inProgressRepos.includes(repo.name) ? 'In Progress' : null
+      }));
 
     res.json(repos);
   } catch (error) {

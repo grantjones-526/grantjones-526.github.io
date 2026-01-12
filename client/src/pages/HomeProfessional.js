@@ -1,95 +1,131 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/HomeProfessional.css';
 
 const HomeProfessional = () => {
+  const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [bootComplete, setBootComplete] = useState(false);
+  const [bootText, setBootText] = useState([]);
+
+  const menuItems = [
+    { label: 'PROJECTS', path: '/projects', description: 'View my work and applications' },
+    { label: 'ABOUT', path: '/about', description: 'Education, experience, and skills' },
+    { label: 'CONTACT', path: '/contact', description: 'Get in touch' },
+  ];
+
+  const bootSequence = [
+    'ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL',
+    'ENTER PASSWORD NOW',
+    '',
+    '> ************',
+    '> PASSWORD ACCEPTED',
+    '',
+    'LOADING PORTFOLIO INTERFACE...',
+    '',
+  ];
+
+  // Boot sequence animation
+  useEffect(() => {
+    let lineIndex = 0;
+    const bootInterval = setInterval(() => {
+      if (lineIndex < bootSequence.length) {
+        setBootText(prev => [...prev, bootSequence[lineIndex]]);
+        lineIndex++;
+      } else {
+        clearInterval(bootInterval);
+        setTimeout(() => setBootComplete(true), 300);
+      }
+    }, 150);
+
+    return () => clearInterval(bootInterval);
+  }, []);
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback((e) => {
+    if (!bootComplete) return;
+
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev > 0 ? prev - 1 : menuItems.length - 1));
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev < menuItems.length - 1 ? prev + 1 : 0));
+        break;
+      case 'Enter':
+        e.preventDefault();
+        navigate(menuItems[selectedIndex].path);
+        break;
+      default:
+        break;
+    }
+  }, [bootComplete, selectedIndex, navigate, menuItems]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
   return (
-    <div className="home-professional">
-      <div className="home-hero">
-        <div className="hero-content">
-          <h1 className="hero-title">Grant Jones</h1>
-          <p className="hero-role">AI/ML Developer & Graduate Student</p>
-          <p className="hero-description">
-            Computer Science graduate student at Western Kentucky University specializing in
-            machine learning and full-stack development. Building intelligent applications
-            with Python, Django, and React.
-          </p>
+    <div className="terminal-container">
+      <div className="terminal-screen">
+        {/* Boot sequence */}
+        <div className="boot-sequence">
+          {bootText.map((line, index) => (
+            <div key={index} className="boot-line">{line}</div>
+          ))}
+        </div>
 
-          <div className="hero-stats">
-            <div className="stat">
-              <span className="stat-label">Location</span>
-              <span className="stat-value">Bowling Green, KY</span>
+        {/* Main terminal content */}
+        {bootComplete && (
+          <div className="terminal-content fade-in">
+            <div className="terminal-header">
+              <div className="header-line">════════════════════════════════════════════════════════</div>
+              <h1 className="terminal-title">GRANT JONES</h1>
+              <p className="terminal-subtitle">FULL STACK DEVELOPER & GRADUATE STUDENT</p>
+              <div className="header-line">════════════════════════════════════════════════════════</div>
             </div>
-            <div className="stat">
-              <span className="stat-label">Role</span>
-              <span className="stat-value">Graduate Assistant at WKU</span>
+
+            <div className="terminal-bio">
+              <p>> Computer Science graduate student at Western Kentucky University</p>
+              <p>> Building web applications with React, Node.js, Django</p>
+              <p>> Graduate Assistant teaching CS180: Introduction to Java</p>
             </div>
-            <div className="stat">
-              <span className="stat-label">Focus</span>
-              <span className="stat-value">AI/ML & Full Stack</span>
+
+            <div className="terminal-menu">
+              <p className="menu-header">SELECT OPTION:</p>
+              <div className="menu-items">
+                {menuItems.map((item, index) => (
+                  <div
+                    key={item.path}
+                    className={`menu-item ${selectedIndex === index ? 'selected' : ''}`}
+                    onClick={() => {
+                      setSelectedIndex(index);
+                      navigate(item.path);
+                    }}
+                  >
+                    <span className="menu-selector">{selectedIndex === index ? '>' : ' '}</span>
+                    <span className="menu-label">[{item.label}]</span>
+                    <span className="menu-description">{item.description}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="terminal-footer">
+              <div className="footer-line">────────────────────────────────────────────────────────</div>
+              <p className="navigation-hint">
+                <span className="key">↑↓</span> Navigate
+                <span className="key-separator">│</span>
+                <span className="key">ENTER</span> Select
+              </p>
             </div>
           </div>
+        )}
 
-          <div className="hero-actions">
-            <Link to="/projects" className="btn btn-primary">
-              View Projects
-            </Link>
-            <Link to="/contact" className="btn btn-secondary">
-              Get in Touch
-            </Link>
-          </div>
-
-          <div className="hero-links">
-            <a
-              href="https://github.com/grantjones-526"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-              </svg>
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/grant-jones-cs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
-              </svg>
-              LinkedIn
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div className="home-highlights">
-        <div className="highlight-card">
-          <h3>Featured Projects</h3>
-          <p>AI Model Interface, Golf Club Recommendation App, Custom LLM Interface</p>
-          <Link to="/projects" className="card-link">
-            Explore all projects →
-          </Link>
-        </div>
-
-        <div className="highlight-card">
-          <h3>Technical Skills</h3>
-          <p>Python, Java, C++, Django, React, Scikit-Learn, PostgreSQL, Machine Learning</p>
-          <Link to="/about" className="card-link">
-            Learn more →
-          </Link>
-        </div>
-
-        <div className="highlight-card">
-          <h3>Experience</h3>
-          <p>Graduate Assistant teaching CS180 at WKU, supporting 60+ students</p>
-          <Link to="/about" className="card-link">
-            View background →
-          </Link>
-        </div>
+        <span className="cursor-blink">_</span>
       </div>
     </div>
   );

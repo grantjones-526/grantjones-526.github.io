@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TerminalPage from '../components/TerminalPage';
 import ProjectCard from '../components/ProjectCard';
 import { getProjects, getGitHubRepos } from '../services/api';
 import '../styles/Projects.css';
@@ -45,65 +46,52 @@ const Projects = () => {
 
   if (loading) {
     return (
-      <div className="projects-container">
+      <TerminalPage title="PROJECTS">
         <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p className="loading-text">
-            <span className="terminal-prompt">$</span> Loading projects...
-          </p>
+          <p className="loading-text">> Loading projects...</p>
+          <div className="loading-bar">
+            <div className="loading-progress"></div>
+          </div>
         </div>
-      </div>
+      </TerminalPage>
     );
   }
 
   if (error) {
     return (
-      <div className="projects-container">
+      <TerminalPage title="PROJECTS">
         <div className="error-container">
-          <span className="error-icon">✗</span>
-          <p className="error-text">Error: {error}</p>
-          <button
-            className="error-retry"
-            onClick={() => window.location.reload()}
-          >
-            <span className="button-icon">↻</span> Retry
+          <p className="error-text">> ERROR: {error}</p>
+          <button className="terminal-button" onClick={() => window.location.reload()}>
+            [RETRY]
           </button>
         </div>
-      </div>
+      </TerminalPage>
     );
   }
 
   return (
-    <div className="projects-container">
-      <div className="projects-header">
-        <div className="terminal-line">
-          <span className="terminal-prompt">user@portfolio:~$</span>
-          <span className="terminal-command">ls projects/</span>
-        </div>
-        <h1 className="projects-title">My Projects</h1>
-        <p className="projects-subtitle">
-          A collection of my work showcasing various technologies and solutions
-        </p>
-      </div>
+    <TerminalPage title="PROJECTS">
+      <p className="section-description">> A collection of my work and applications</p>
 
       <div className="projects-tabs">
         <button
           className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
           onClick={() => setActiveTab('all')}
         >
-          <span className="tab-icon">*</span> All Projects ({allProjects.length})
+          [ALL: {allProjects.length}]
         </button>
         <button
           className={`tab-button ${activeTab === 'featured' ? 'active' : ''}`}
           onClick={() => setActiveTab('featured')}
         >
-          <span className="tab-icon">★</span> Featured ({projects.length})
+          [FEATURED: {projects.length}]
         </button>
         <button
           className={`tab-button ${activeTab === 'github' ? 'active' : ''}`}
           onClick={() => setActiveTab('github')}
         >
-          <span className="tab-icon">{'<>'}</span> GitHub ({githubRepos.length})
+          [GITHUB: {githubRepos.length}]
         </button>
       </div>
 
@@ -114,11 +102,11 @@ const Projects = () => {
           ))
         ) : (
           <div className="no-projects">
-            <p>No projects found in this category</p>
+            <p>> No projects found in this category</p>
           </div>
         )}
       </div>
-    </div>
+    </TerminalPage>
   );
 };
 

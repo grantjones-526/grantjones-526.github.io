@@ -13,6 +13,7 @@ const ProjectCard = ({ project }) => {
     liveUrl,
     homepage,
     stargazers_count,
+    status,
   } = project;
 
   const displayTitle = title || name;
@@ -25,11 +26,16 @@ const ProjectCard = ({ project }) => {
     <div className="project-card">
       <div className="project-card-header">
         <h3 className="project-title">{displayTitle}</h3>
-        {stargazers_count !== undefined && (
-          <span className="project-stars">
-            <span className="star-icon">★</span> {stargazers_count}
-          </span>
-        )}
+        <div className="project-header-badges">
+          {status && (
+            <span className="project-status">{status}</span>
+          )}
+          {stargazers_count !== undefined && (
+            <span className="project-stars">
+              <span className="star-icon">★</span> {stargazers_count}
+            </span>
+          )}
+        </div>
       </div>
 
       <p className="project-description">{displayDescription}</p>

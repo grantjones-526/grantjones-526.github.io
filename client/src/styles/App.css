@@ -7,27 +7,27 @@
 }
 
 :root {
-  /* Color Palette - Dark Professional */
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-tertiary: #21262d;
-  --bg-hover: #30363d;
-  --bg-card: #161b22;
+  /* Color Palette - Authentic Terminal */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-hover: #1a1a1a;
+  --bg-card: #0a0a0a;
 
-  --text-primary: #c9d1d9;
-  --text-secondary: #8b949e;
-  --text-muted: #6e7681;
+  --text-primary: #00ff00;
+  --text-secondary: #00cc00;
+  --text-muted: #009900;
 
-  --accent-primary: #58a6ff;
-  --accent-green: #3fb950;
-  --accent-green-hover: #2ea043;
+  --accent-primary: #00ff00;
+  --accent-green: #00ff00;
+  --accent-green-hover: #00cc00;
 
-  --border-default: #30363d;
-  --border-muted: #21262d;
+  --border-default: #00ff00;
+  --border-muted: #006600;
 
-  --error-color: #f85149;
-  --success-color: #3fb950;
-  --warning-color: #d29922;
+  --error-color: #ff0000;
+  --success-color: #00ff00;
+  --warning-color: #ffff00;
 
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -50,10 +50,23 @@
 
 body {
   background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
+  color: var(--accent-green);
+  font-family: var(--font-mono);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* Terminal text styling */
+p, span, a, li, div {
+  color: var(--accent-green);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--accent-green);
+  font-family: var(--font-mono);
+  text-shadow: 0 0 8px var(--accent-green), 0 0 2px var(--accent-green);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 /* App Container */
@@ -116,6 +129,83 @@ body {
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s infinite;
+  color: var(--accent-green);
+}
+
+.terminal-prompt {
+  color: var(--text-muted);
+  font-weight: normal;
+}
+
+.terminal-output {
+  color: var(--accent-green);
+  margin-right: var(--spacing-xs);
+}
+
+/* CRT/Terminal Effects */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: flicker 4s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.6; }
+  92% { opacity: 0.5; }
+  94% { opacity: 0.7; }
+  96% { opacity: 0.5; }
+}
+
+/* Glow pulse effect for headers */
+.glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--accent-green), 0 0 20px var(--accent-green), 0 0 30px var(--accent-green);
+  }
+  50% {
+    text-shadow: 0 0 5px var(--accent-green), 0 0 10px var(--accent-green), 0 0 15px var(--accent-green);
+  }
+}
+
+/* Fade in animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-subtitle {
