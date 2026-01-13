@@ -1,7 +1,7 @@
 /* Terminal Container */
 .terminal-container {
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: #001a00;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,12 +9,35 @@
   position: relative;
 }
 
+/* Scanlines overlay */
+.terminal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
 .terminal-screen {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   font-family: var(--font-mono);
   color: var(--accent-green);
   padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80vh;
 }
 
 /* Boot Sequence */
@@ -23,9 +46,16 @@
 }
 
 .boot-line {
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: var(--accent-green);
+  white-space: pre;
+  font-family: var(--font-mono);
+}
+
+.progress-line {
+  color: #00ff00;
+  letter-spacing: 0;
 }
 
 /* Terminal Content */
@@ -37,6 +67,9 @@
 .terminal-header {
   text-align: center;
   margin-bottom: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header-line {
@@ -55,11 +88,30 @@
   text-shadow: 0 0 10px var(--accent-green);
 }
 
+.terminal-ascii-name {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  line-height: 1.15;
+  color: var(--accent-green);
+  margin: 0;
+  white-space: pre;
+  display: block;
+}
+
 .terminal-subtitle {
+  display: block;
   font-size: 1rem;
   color: var(--accent-green);
   opacity: 0.8;
   letter-spacing: 2px;
+  margin-top: var(--spacing-md);
+}
+
+.terminal-hint {
+  margin-top: var(--spacing-xl);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
 }
 
 /* Terminal Bio */

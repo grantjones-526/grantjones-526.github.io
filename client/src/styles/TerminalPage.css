@@ -1,6 +1,30 @@
 /* Terminal Page Layout */
 .terminal-page {
   min-height: 100vh;
+  background-color: #001a00;
+  position: relative;
+}
+
+/* Scanlines overlay */
+.terminal-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.terminal-page-inner {
   max-width: 900px;
   margin: 0 auto;
   padding: var(--spacing-xl);
@@ -8,6 +32,7 @@
   color: var(--accent-green);
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Header */
@@ -28,22 +53,21 @@
 }
 
 .back-button:hover {
-  background-color: rgba(63, 185, 80, 0.2);
-  text-shadow: 0 0 5px var(--accent-green);
+  background-color: rgba(0, 255, 0, 0.1);
 }
 
 .page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: normal;
   color: var(--accent-green);
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px var(--accent-green);
+  letter-spacing: 2px;
   margin-bottom: var(--spacing-md);
+  font-family: var(--font-mono);
 }
 
 .header-border {
   color: var(--accent-green);
-  opacity: 0.5;
+  opacity: 0.4;
   font-size: 0.7rem;
   overflow: hidden;
   white-space: nowrap;
@@ -74,9 +98,8 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  color: var(--accent-green);
-  font-size: 0.85rem;
-  opacity: 0.6;
+  color: var(--text-muted);
+  font-size: 0.8rem;
 }
 
 .terminal-page-footer .key {
@@ -84,18 +107,34 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border: 1px solid var(--accent-green);
   border-radius: 3px;
+  opacity: 0.7;
+}
+
+/* Section styling for all pages */
+.section-description {
+  font-size: 0.95rem;
+  color: var(--accent-green);
   opacity: 0.8;
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+  font-size: 1.1rem;
+  color: var(--accent-green);
+  margin-bottom: var(--spacing-md);
+  font-weight: normal;
+  font-family: var(--font-mono);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .terminal-page {
+  .terminal-page-inner {
     padding: var(--spacing-md);
   }
 
   .page-title {
-    font-size: 1.8rem;
-    letter-spacing: 2px;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
   }
 
   .header-border,

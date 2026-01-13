@@ -23,21 +23,23 @@ const TerminalPage = ({ title, children }) => {
 
   return (
     <div className="terminal-page">
-      <div className="terminal-page-header">
-        <button className="back-button" onClick={() => navigate('/')}>
-          {'<'} BACK
-        </button>
-        <h1 className="page-title">{title}<span className="cursor-blink">_</span></h1>
-        <div className="header-border">════════════════════════════════════════════════════════════════</div>
-      </div>
-      <div className="terminal-page-content">
-        {children}
-      </div>
-      <div className="terminal-page-footer">
-        <div className="footer-border">────────────────────────────────────────────────────────────────</div>
-        <p className="navigation-hint">
-          <span className="key">ESC</span> Back to main menu
-        </p>
+      <div className="terminal-page-inner">
+        <div className="terminal-page-header">
+          <button className="back-button" onClick={() => navigate('/')}>
+            {'<'} BACK
+          </button>
+          <h1 className="page-title">{title}<span className="cursor-blink">_</span></h1>
+          <div className="header-border">════════════════════════════════════════════════════════════════</div>
+        </div>
+        <div className="terminal-page-content">
+          {children}
+        </div>
+        <div className="terminal-page-footer">
+          <div className="footer-border">────────────────────────────────────────────────────────────────</div>
+          <p className="navigation-hint">
+            <span className="key">ESC</span> Back to main menu
+          </p>
+        </div>
       </div>
     </div>
   );

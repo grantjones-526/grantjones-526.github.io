@@ -6,7 +6,11 @@ const HomeProfessional = () => {
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [bootComplete, setBootComplete] = useState(false);
-  const [bootText, setBootText] = useState([]);
+  const [bootLines, setBootLines] = useState([]);
+  const [memoryProgress, setMemoryProgress] = useState(0);
+  const [showMemoryBar, setShowMemoryBar] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [showLoadingBar, setShowLoadingBar] = useState(false);
 
   const menuItems = [
     { label: 'PROJECTS', path: '/projects', description: 'View my work and applications' },
@@ -14,32 +18,137 @@ const HomeProfessional = () => {
     { label: 'CONTACT', path: '/contact', description: 'Get in touch' },
   ];
 
-  const bootSequence = [
-    'ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL',
-    'ENTER PASSWORD NOW',
-    '',
-    '> ************',
-    '> PASSWORD ACCEPTED',
-    '',
-    'LOADING PORTFOLIO INTERFACE...',
-    '',
-  ];
-
-  // Boot sequence animation
+  // Boot sequence with system diagnostics
   useEffect(() => {
-    let lineIndex = 0;
-    const bootInterval = setInterval(() => {
-      if (lineIndex < bootSequence.length) {
-        setBootText(prev => [...prev, bootSequence[lineIndex]]);
-        lineIndex++;
-      } else {
-        clearInterval(bootInterval);
-        setTimeout(() => setBootComplete(true), 300);
-      }
-    }, 150);
+    const bootSteps = [
+      { text: '╔══════════════════════════════════════════════════════════╗', delay: 100 },
+      { text: '║  GRANT JONES PORTFOLIO SYSTEM v2.0.25                    ║', delay: 100 },
+      { text: '║  Copyright (c) 2025 Grant Jones. All rights reserved.    ║', delay: 100 },
+      { text: '╚══════════════════════════════════════════════════════════╝', delay: 100 },
+      { text: '', delay: 250 },
+      { text: 'BIOS Date: 01/13/2025  Ver: 2.0.25', delay: 200 },
+      { text: 'CPU: Developer Brain @ 3.5GHz', delay: 250 },
+      { text: 'Memory Test:', delay: 200, action: 'startMemory' },
+      { text: '', delay: 1800, action: 'waitMemory' },
+      { text: '32768 MB OK', delay: 250 },
+      { text: '', delay: 200 },
+      { text: 'Detecting IDE drives...', delay: 350 },
+      { text: '  Primary Master: REACT-SSD 256GB', delay: 250 },
+      { text: '  Primary Slave:  NODE-HDD 512GB', delay: 250 },
+      { text: '  Secondary:      PYTHON-NVME 1TB', delay: 250 },
+      { text: '', delay: 250 },
+      { text: 'ENTER PASSWORD NOW:', delay: 200, action: 'pause' },
+      { text: '', delay: 1000 },
+      { text: '> ************', delay: 100, action: 'slowType' },
+      { text: '> ACCESS GRANTED', delay: 400 },
+      { text: '', delay: 250 },
+      { text: 'Loading modules:', delay: 200, action: 'startLoading' },
+      { text: '', delay: 2200, action: 'waitLoading' },
+      { text: '', delay: 200 },
+      { text: '[OK] React Framework initialized', delay: 250 },
+      { text: '[OK] Node.js backend connected', delay: 250 },
+      { text: '[OK] Portfolio data loaded', delay: 250 },
+      { text: '', delay: 250 },
+      { text: 'System ready. Welcome, visitor.', delay: 200 },
+      { text: '', delay: 400, action: 'complete' },
+    ];
 
-    return () => clearInterval(bootInterval);
+    let stepIndex = 0;
+    let charIndex = 0;
+    let currentText = '';
+    let timeoutId;
+
+    const processStep = () => {
+      if (stepIndex >= bootSteps.length) {
+        setBootComplete(true);
+        return;
+      }
+
+      const step = bootSteps[stepIndex];
+
+      // Handle special actions
+      if (step.action === 'startMemory') {
+        setShowMemoryBar(true);
+        setMemoryProgress(0);
+      } else if (step.action === 'startLoading') {
+        setShowLoadingBar(true);
+        setLoadingProgress(0);
+      } else if (step.action === 'complete') {
+        setBootComplete(true);
+        return;
+      }
+
+      // Type character by character for regular text
+      if (step.action === 'slowType' && charIndex < step.text.length) {
+        currentText = step.text.substring(0, charIndex + 1);
+        setBootLines(prev => {
+          const newLines = [...prev];
+          newLines[stepIndex] = currentText;
+          return newLines;
+        });
+        charIndex++;
+        timeoutId = setTimeout(processStep, 80);
+        return;
+      }
+
+      // Add complete line
+      if (step.text !== '' || stepIndex === 0) {
+        setBootLines(prev => [...prev, step.text]);
+      } else {
+        setBootLines(prev => [...prev, '']);
+      }
+
+      stepIndex++;
+      charIndex = 0;
+      currentText = '';
+      timeoutId = setTimeout(processStep, step.delay);
+    };
+
+    timeoutId = setTimeout(processStep, 500);
+
+    return () => clearTimeout(timeoutId);
   }, []);
+
+  // Memory progress animation
+  useEffect(() => {
+    if (!showMemoryBar || memoryProgress >= 100) return;
+
+    const interval = setInterval(() => {
+      setMemoryProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 40);
+
+    return () => clearInterval(interval);
+  }, [showMemoryBar, memoryProgress]);
+
+  // Loading progress animation
+  useEffect(() => {
+    if (!showLoadingBar || loadingProgress >= 100) return;
+
+    const interval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 1;
+      });
+    }, 25);
+
+    return () => clearInterval(interval);
+  }, [showLoadingBar, loadingProgress]);
+
+  // Progress bar renderer
+  const renderProgressBar = (progress, width = 30) => {
+    const filled = Math.floor((progress / 100) * width);
+    const empty = width - filled;
+    return `[${`█`.repeat(filled)}${`░`.repeat(empty)}] ${progress}%`;
+  };
 
   // Keyboard navigation
   const handleKeyDown = useCallback((e) => {
@@ -71,21 +180,38 @@ const HomeProfessional = () => {
   return (
     <div className="terminal-container">
       <div className="terminal-screen">
-        {/* Boot sequence */}
-        <div className="boot-sequence">
-          {bootText.map((line, index) => (
-            <div key={index} className="boot-line">{line}</div>
-          ))}
-        </div>
+        {/* Boot sequence - hidden after complete */}
+        {!bootComplete && (
+          <div className="boot-sequence">
+            {bootLines.map((line, index) => (
+              <div key={index} className="boot-line">{line}</div>
+            ))}
+            {showMemoryBar && memoryProgress < 100 && (
+              <div className="boot-line progress-line">
+                {renderProgressBar(memoryProgress)}
+              </div>
+            )}
+            {showLoadingBar && loadingProgress < 100 && (
+              <div className="boot-line progress-line">
+                {renderProgressBar(loadingProgress, 40)}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Main terminal content */}
         {bootComplete && (
           <div className="terminal-content fade-in">
             <div className="terminal-header">
-              <div className="header-line">════════════════════════════════════════════════════════</div>
-              <h1 className="terminal-title">GRANT JONES</h1>
-              <p className="terminal-subtitle">FULL STACK DEVELOPER & GRADUATE STUDENT</p>
-              <div className="header-line">════════════════════════════════════════════════════════</div>
+              <pre className="terminal-ascii-name">{`
+ ██████╗ ██████╗  █████╗ ███╗   ██╗████████╗         ██╗ ██████╗ ███╗   ██╗███████╗███████╗
+██╔════╝ ██╔══██╗██╔══██╗████╗  ██║╚══██╔══╝         ██║██╔═══██╗████╗  ██║██╔════╝██╔════╝
+██║  ███╗██████╔╝███████║██╔██╗ ██║   ██║            ██║██║   ██║██╔██╗ ██║█████╗  ███████╗
+██║   ██║██╔══██╗██╔══██║██║╚██╗██║   ██║       ██   ██║██║   ██║██║╚██╗██║██╔══╝  ╚════██║
+╚██████╔╝██║  ██║██║  ██║██║ ╚████║   ██║       ╚█████╔╝╚██████╔╝██║ ╚████║███████╗███████║
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝        ╚════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝
+`}</pre>
+              <p className="terminal-subtitle">Full Stack Developer & Graduate Student</p>
             </div>
 
             <div className="terminal-bio">
@@ -114,18 +240,11 @@ const HomeProfessional = () => {
               </div>
             </div>
 
-            <div className="terminal-footer">
-              <div className="footer-line">────────────────────────────────────────────────────────</div>
-              <p className="navigation-hint">
-                <span className="key">↑↓</span> Navigate
-                <span className="key-separator">│</span>
-                <span className="key">ENTER</span> Select
-              </p>
+            <div className="terminal-hint">
+              Use ↑↓ to navigate, ENTER to select
             </div>
           </div>
         )}
-
-        <span className="cursor-blink">_</span>
       </div>
     </div>
   );
