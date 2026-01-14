@@ -64,7 +64,7 @@ p, span, a, li, div {
 h1, h2, h3, h4, h5, h6 {
   color: var(--accent-green);
   font-family: var(--font-mono);
-  text-shadow: 0 0 8px var(--accent-green), 0 0 2px var(--accent-green);
+  text-shadow: 0 0 2px var(--accent-green);
   letter-spacing: 2px;
   text-transform: uppercase;
 }

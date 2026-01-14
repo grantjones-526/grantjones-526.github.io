@@ -1,63 +1,40 @@
-import axios from 'axios';
+// GitHub API - no backend needed
 
-// Create axios instance
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || '/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const GITHUB_USERNAME = 'grantjones-526';
 
-// Request interceptor
-api.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor
-api.interceptors.response.use(
-  (response) => {
-    return response.data;
-  },
-  (error) => {
-    const errorMessage = error.response?.data?.error || error.message || 'An error occurred';
-    console.error('API Error:', errorMessage);
-    return Promise.reject(new Error(errorMessage));
-  }
-);
-
-// API methods
-
-export const getProjects = async () => {
-  try {
-    const data = await api.get('/projects');
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
+// Add repo names here to exclude them from the portfolio
+const EXCLUDED_REPOS = [
+  'grantjones-526.github.io',
+];
 
 export const getGitHubRepos = async () => {
   try {
-    const data = await api.get('/github/repos');
-    return data;
+    const response = await fetch(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=20`
+    );
+    if (!response.ok) {
+      throw new Error('Failed to fetch repos');
+    }
+    const repos = await response.json();
+    return repos.filter(repo =>
+      !repo.fork && !EXCLUDED_REPOS.includes(repo.name)
+    );
   } catch (error) {
+    console.error('GitHub API Error:', error);
     throw error;
   }
 };
 
-export const submitContact = async (contactData) => {
-  try {
-    const data = await api.post('/contact', contactData);
-    return data;
-  } catch (error) {
-    throw error;
-  }
+// Featured projects - hardcoded since no backend
+export const getProjects = async () => {
+  return [
+    {
+      id: 1,
+      title: 'Portfolio Website',
+      description: 'Personal portfolio with terminal-style UI built with React',
+      techStack: ['React', 'Node.js', 'CSS'],
+      githubUrl: 'https://github.com/grantjones-526/grantjones-526.github.io',
+      status: 'Active',
+    },
+  ];
 };
-
-export default api;

@@ -2,10 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/HomeProfessional.css';
 
+// Module-level variable to track if boot has played
+// Resets on page refresh, persists during React Router navigation
+let hasBootedThisSession = false;
+
 const HomeProfessional = () => {
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [bootComplete, setBootComplete] = useState(false);
+
+  // Skip boot if already played during this page session
+  const [bootComplete, setBootComplete] = useState(hasBootedThisSession);
   const [bootLines, setBootLines] = useState([]);
   const [memoryProgress, setMemoryProgress] = useState(0);
   const [showMemoryBar, setShowMemoryBar] = useState(false);
@@ -20,37 +26,40 @@ const HomeProfessional = () => {
 
   // Boot sequence with system diagnostics
   useEffect(() => {
+    // Skip boot sequence if already played this session
+    if (hasBootedThisSession) return;
+
     const bootSteps = [
-      { text: '╔══════════════════════════════════════════════════════════╗', delay: 100 },
-      { text: '║  GRANT JONES PORTFOLIO SYSTEM v2.0.25                    ║', delay: 100 },
-      { text: '║  Copyright (c) 2025 Grant Jones. All rights reserved.    ║', delay: 100 },
-      { text: '╚══════════════════════════════════════════════════════════╝', delay: 100 },
-      { text: '', delay: 250 },
-      { text: 'BIOS Date: 01/13/2025  Ver: 2.0.25', delay: 200 },
-      { text: 'CPU: Developer Brain @ 3.5GHz', delay: 250 },
-      { text: 'Memory Test:', delay: 200, action: 'startMemory' },
-      { text: '', delay: 1800, action: 'waitMemory' },
-      { text: '32768 MB OK', delay: 250 },
-      { text: '', delay: 200 },
-      { text: 'Detecting IDE drives...', delay: 350 },
-      { text: '  Primary Master: REACT-SSD 256GB', delay: 250 },
-      { text: '  Primary Slave:  NODE-HDD 512GB', delay: 250 },
-      { text: '  Secondary:      PYTHON-NVME 1TB', delay: 250 },
-      { text: '', delay: 250 },
-      { text: 'ENTER PASSWORD NOW:', delay: 200, action: 'pause' },
-      { text: '', delay: 1000 },
-      { text: '> ************', delay: 100, action: 'slowType' },
-      { text: '> ACCESS GRANTED', delay: 400 },
-      { text: '', delay: 250 },
-      { text: 'Loading modules:', delay: 200, action: 'startLoading' },
-      { text: '', delay: 2200, action: 'waitLoading' },
-      { text: '', delay: 200 },
-      { text: '[OK] React Framework initialized', delay: 250 },
-      { text: '[OK] Node.js backend connected', delay: 250 },
-      { text: '[OK] Portfolio data loaded', delay: 250 },
-      { text: '', delay: 250 },
-      { text: 'System ready. Welcome, visitor.', delay: 200 },
-      { text: '', delay: 400, action: 'complete' },
+      { text: '╔══════════════════════════════════════════════════════════╗', delay: 50 },
+      { text: '║  GRANT JONES PORTFOLIO SYSTEM v2.0.25                    ║', delay: 50 },
+      { text: '║  Copyright (c) 2025 Grant Jones. All rights reserved.    ║', delay: 50 },
+      { text: '╚══════════════════════════════════════════════════════════╝', delay: 50 },
+      { text: '', delay: 150 },
+      { text: 'BIOS Date: 01/13/2025  Ver: 2.0.25', delay: 100 },
+      { text: 'CPU: Developer Brain @ 3.5GHz', delay: 120 },
+      { text: 'Memory Test:', delay: 100, action: 'startMemory' },
+      { text: '', delay: 1000, action: 'waitMemory' },
+      { text: '32768 MB OK', delay: 120 },
+      { text: '', delay: 100 },
+      { text: 'Detecting IDE drives...', delay: 180 },
+      { text: '  Primary Master: REACT-SSD 256GB', delay: 120 },
+      { text: '  Primary Slave:  NODE-HDD 512GB', delay: 120 },
+      { text: '  Secondary:      PYTHON-NVME 1TB', delay: 120 },
+      { text: '', delay: 150 },
+      { text: 'ENTER PASSWORD NOW:', delay: 100, action: 'pause' },
+      { text: '', delay: 500 },
+      { text: '> ************', delay: 50, action: 'slowType' },
+      { text: '> ACCESS GRANTED', delay: 200 },
+      { text: '', delay: 150 },
+      { text: 'Loading modules:', delay: 100, action: 'startLoading' },
+      { text: '', delay: 1200, action: 'waitLoading' },
+      { text: '', delay: 100 },
+      { text: '[OK] React Framework initialized', delay: 120 },
+      { text: '[OK] Node.js backend connected', delay: 120 },
+      { text: '[OK] Portfolio data loaded', delay: 120 },
+      { text: '', delay: 150 },
+      { text: 'System ready. Welcome, visitor.', delay: 100 },
+      { text: '', delay: 200, action: 'complete' },
     ];
 
     let stepIndex = 0;
@@ -61,6 +70,7 @@ const HomeProfessional = () => {
     const processStep = () => {
       if (stepIndex >= bootSteps.length) {
         setBootComplete(true);
+        hasBootedThisSession = true;
         return;
       }
 
@@ -75,6 +85,7 @@ const HomeProfessional = () => {
         setLoadingProgress(0);
       } else if (step.action === 'complete') {
         setBootComplete(true);
+        hasBootedThisSession = true;
         return;
       }
 
@@ -87,7 +98,7 @@ const HomeProfessional = () => {
           return newLines;
         });
         charIndex++;
-        timeoutId = setTimeout(processStep, 80);
+        timeoutId = setTimeout(processStep, 40);
         return;
       }
 
@@ -104,9 +115,10 @@ const HomeProfessional = () => {
       timeoutId = setTimeout(processStep, step.delay);
     };
 
-    timeoutId = setTimeout(processStep, 500);
+    timeoutId = setTimeout(processStep, 300);
 
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Memory progress animation
@@ -119,9 +131,9 @@ const HomeProfessional = () => {
           clearInterval(interval);
           return 100;
         }
-        return prev + 2;
+        return prev + 4;
       });
-    }, 40);
+    }, 25);
 
     return () => clearInterval(interval);
   }, [showMemoryBar, memoryProgress]);
@@ -136,9 +148,9 @@ const HomeProfessional = () => {
           clearInterval(interval);
           return 100;
         }
-        return prev + 1;
+        return prev + 3;
       });
-    }, 25);
+    }, 20);
 
     return () => clearInterval(interval);
   }, [showLoadingBar, loadingProgress]);

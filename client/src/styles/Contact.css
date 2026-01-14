@@ -18,6 +18,12 @@
 .contact-form-section {
   border: 1px solid var(--border-default);
   padding: var(--spacing-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form-section:hover {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
 }
 
 .section-title {
@@ -26,6 +32,7 @@
   color: var(--accent-green);
   margin-bottom: var(--spacing-lg);
   font-family: var(--font-mono);
+  text-shadow: 0 0 3px var(--accent-green);
 }
 
 /* Contact Form */
@@ -63,6 +70,7 @@
 .form-textarea:focus {
   outline: none;
   border-color: var(--accent-green);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
 .form-textarea {
@@ -83,8 +91,9 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: rgba(63, 185, 80, 0.2);
-  text-shadow: 0 0 5px var(--accent-green);
+  background-color: rgba(0, 255, 0, 0.2);
+  text-shadow: 0 0 10px var(--accent-green);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
 }
 
 .submit-button:disabled {
@@ -119,6 +128,12 @@
 .contact-info-section {
   border: 1px solid var(--border-default);
   padding: var(--spacing-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-info-section:hover {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
 }
 
 .info-list {
@@ -133,6 +148,21 @@
   gap: var(--spacing-sm);
   font-family: var(--font-mono);
   font-size: 0.9rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.info-item.selected {
+  background-color: rgba(0, 255, 0, 0.1);
+  outline: 1px solid var(--accent-green);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.info-item.selected::before {
+  content: '> ';
+  color: var(--accent-green);
+  animation: blink 1s infinite;
 }
 
 .info-label {
@@ -177,8 +207,21 @@ a.info-value:hover {
 }
 
 .terminal-link:hover {
-  text-shadow: 0 0 5px var(--accent-green);
-  background-color: rgba(63, 185, 80, 0.1);
+  text-shadow: 0 0 10px var(--accent-green), 0 0 20px var(--accent-green);
+  background-color: rgba(0, 255, 0, 0.15);
+}
+
+.terminal-link.selected {
+  text-shadow: 0 0 10px var(--accent-green), 0 0 20px var(--accent-green);
+  background-color: rgba(0, 255, 0, 0.2);
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+.terminal-link.selected::before {
+  content: '> ';
+  color: var(--accent-green);
+  animation: blink 1s infinite;
 }
 
 /* Responsive */

@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://grantjones-526.github.io",
-  "proxy": "http://localhost:5000",
   "dependencies": {
     "axios": "^1.13.2",
     "react": "^19.2.3",

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import '../styles/Projects.css';
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = forwardRef(({ project, selected, onClick }, ref) => {
   const {
     title,
     name,
@@ -23,7 +23,7 @@ const ProjectCard = ({ project }) => {
   const demoUrl = liveUrl || homepage;
 
   return (
-    <div className="project-card">
+    <div ref={ref} className={`project-card ${selected ? 'selected' : ''}`} onClick={onClick}>
       <div className="project-card-header">
         <h3 className="project-title">{displayTitle}</h3>
         <div className="project-header-badges">
@@ -74,6 +74,6 @@ const ProjectCard = ({ project }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ProjectCard;

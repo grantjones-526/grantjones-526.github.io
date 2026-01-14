@@ -1,8 +1,94 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TerminalPage from '../components/TerminalPage';
 import '../styles/About.css';
 
 const About = () => {
+  const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [backButtonSelected, setBackButtonSelected] = useState(true);
+  const itemRefs = useRef([]);
+
+  const links = [
+    { label: 'GITHUB', url: 'https://github.com/grantjones-526', type: 'external' },
+    { label: 'LINKEDIN', url: 'https://linkedin.com/in/grant-jones-cs', type: 'external' },
+  ];
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault();
+        if (backButtonSelected) {
+          setBackButtonSelected(false);
+          setSelectedIndex(links.length - 1);
+        } else if (selectedIndex > 0) {
+          setSelectedIndex(prev => prev - 1);
+        } else {
+          setBackButtonSelected(true);
+        }
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        if (backButtonSelected) {
+          setBackButtonSelected(false);
+          setSelectedIndex(0);
+        } else if (selectedIndex < links.length - 1) {
+          setSelectedIndex(prev => prev + 1);
+        } else {
+          setBackButtonSelected(true);
+        }
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        if (!backButtonSelected) {
+          setSelectedIndex(prev => (prev > 0 ? prev - 1 : links.length - 1));
+        }
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        if (!backButtonSelected) {
+          setSelectedIndex(prev => (prev < links.length - 1 ? prev + 1 : 0));
+        }
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (backButtonSelected) {
+          navigate('/');
+        } else {
+          window.open(links[selectedIndex].url, '_blank');
+        }
+        break;
+      default:
+        break;
+    }
+  }, [selectedIndex, links, backButtonSelected, navigate]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  useEffect(() => {
+    if (backButtonSelected) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (itemRefs.current[selectedIndex]) {
+      const el = itemRefs.current[selectedIndex];
+      const rect = el.getBoundingClientRect();
+      const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+      if (!isVisible) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }
+  }, [selectedIndex, backButtonSelected]);
+
   const skills = {
     languages: ['JavaScript', 'Python', 'Java', 'C++', 'SQL', 'HTML', 'CSS', 'Bash'],
     frameworks: ['React', 'Node.js', 'Express', 'Django', 'REST APIs'],
@@ -11,7 +97,7 @@ const About = () => {
   };
 
   return (
-    <TerminalPage title="ABOUT">
+    <TerminalPage title="ABOUT" backButtonSelected={backButtonSelected}>
       <div className="about-content">
         <section className="terminal-section">
           <h2 className="section-title">> INTRODUCTION</h2>
@@ -100,12 +186,19 @@ const About = () => {
         <section className="terminal-section">
           <h2 className="section-title">> CONNECT</h2>
           <div className="connect-links">
-            <a href="https://github.com/grantjones-526" target="_blank" rel="noopener noreferrer" className="terminal-link">
-              [GITHUB]
-            </a>
-            <a href="https://linkedin.com/in/grant-jones-cs" target="_blank" rel="noopener noreferrer" className="terminal-link">
-              [LINKEDIN]
-            </a>
+            {links.map((link, index) => (
+              <a
+                key={link.label}
+                ref={el => itemRefs.current[index] = el}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`terminal-link ${selectedIndex === index && !backButtonSelected ? 'selected' : ''}`}
+                onClick={() => { setBackButtonSelected(false); setSelectedIndex(index); }}
+              >
+                [{link.label}]
+              </a>
+            ))}
           </div>
         </section>
       </div>

@@ -90,7 +90,15 @@
 .tab-button.active {
   border-color: var(--accent-green);
   color: var(--accent-green);
-  background-color: rgba(63, 185, 80, 0.1);
+  background-color: rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+  text-shadow: 0 0 5px var(--accent-green);
+}
+
+.tab-button.selected {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+  animation: glowPulse 1.5s ease-in-out infinite;
 }
 
 /* Projects Grid */
@@ -113,15 +121,36 @@
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-default);
   padding: var(--spacing-lg);
-  transition: all 0.2s ease;
+  transition: all 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  position: relative;
+  cursor: pointer;
 }
 
 .project-card:hover {
   border-color: var(--accent-green);
-  box-shadow: 0 0 10px rgba(63, 185, 80, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3), 0 0 30px rgba(0, 255, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.project-card.selected {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.4), 0 0 40px rgba(0, 255, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.project-card.selected::before {
+  content: '>';
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-green);
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--accent-green);
+  animation: blink 1s infinite;
 }
 
 .project-card-header {
@@ -137,6 +166,12 @@
   color: var(--accent-green);
   font-family: var(--font-mono);
   flex: 1;
+  text-shadow: 0 0 5px var(--accent-green);
+  transition: text-shadow 0.2s ease;
+}
+
+.project-card:hover .project-title {
+  text-shadow: 0 0 10px var(--accent-green), 0 0 20px var(--accent-green);
 }
 
 .project-header-badges {
