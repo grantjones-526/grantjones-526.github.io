@@ -43,7 +43,7 @@ const HomeProfessional = () => {
       { text: '', delay: 100 },
       { text: 'Detecting IDE drives...', delay: 180 },
       { text: '  Primary Master: REACT-SSD 256GB', delay: 120 },
-      { text: '  Primary Slave:  NODE-HDD 512GB', delay: 120 },
+      { text: '  Primary:        NODE-HDD 512GB', delay: 120 },
       { text: '  Secondary:      PYTHON-NVME 1TB', delay: 120 },
       { text: '', delay: 150 },
       { text: 'ENTER PASSWORD NOW:', delay: 100, action: 'pause' },
